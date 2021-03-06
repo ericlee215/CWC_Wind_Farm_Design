@@ -128,7 +128,7 @@ include("./model_sets/model_set_1.jl")
 obj_scale = 1E-11
 
 # set wind farm boundary parameters
-boundary_vertices = ([0 0; 1 0; 1 .75; .75 .75; .75 1; 0 1] .- .5).*1000 # Utah-shape boundary
+boundary_vertices = ([0 0; 1 0; 1 .75; .75 .75; .75 1; 0 1] .- .5) .* 1000 # Utah-shape boundary
 boundary_normals = [0 1.0; -1 0; 0 -1; -1 0; 0 -1; 1 0]
 
 # set globals for use in wrapper functions
@@ -168,6 +168,7 @@ global x
 println("starting objective value: ", aep_wrapper(x, params)[1])
 
 # add initial turbine location to plot
+figure()
 for i = 1:length(turbine_x)
     plt.gcf().gca().add_artist(plt.Circle((turbine_x[i],turbine_y[i]), rotor_diameter[1]/2.0, fill=false, color="C0", linestyle="--"))
 end
@@ -205,7 +206,7 @@ prob = createProblem(n_designvariables, lb, ub, n_constraints, lb_g, ub_g, n_des
 addOption(prob, "hessian_approximation", "limited-memory")
 
 # set up for WEC optimization
-wec_steps = 2
+wec_steps = 6
 wec_max = 3.0
 wec_end = 1.0
 wec_values = collect(LinRange(wec_max, wec_end, wec_steps))
@@ -259,5 +260,5 @@ plt.gcf().gca().plot([boundary_vertices[:,1];boundary_vertices[1,1]],[boundary_v
 axis("square")
 xlim(minimum(boundary_vertices) - (maximum(boundary_vertices)-minimum(boundary_vertices))/5, maximum(boundary_vertices) + (maximum(boundary_vertices)-minimum(boundary_vertices))/5)
 ylim(minimum(boundary_vertices) - (maximum(boundary_vertices)-minimum(boundary_vertices))/5, maximum(boundary_vertices) + (maximum(boundary_vertices)-minimum(boundary_vertices))/5)
-# savefig("figures/opt_plot")
+savefig("figures/opt_plot")
 plt.show()
