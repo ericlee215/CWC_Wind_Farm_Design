@@ -138,7 +138,7 @@ end
 # ==================================================================================
 
 # import model set with wind farm and related details
-include("./model_sets/model_set_1_test.jl")
+include("./model_sets/model_set_1_example.jl")
 
 # scale objective to be between 0 and 1
 obj_scale = 1E-11
