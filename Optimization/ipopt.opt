@@ -7,4 +7,4 @@ output_file "output/opt_history_files/opt_history"
 max_iter 3000
 
 # Set convergence tolerance (NLP error must be smaller than this value to terminate): default=1e-8
-tol 1e-6
+tol 1e-5
