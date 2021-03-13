@@ -191,7 +191,7 @@ println("starting objective value: ", aep_wrapper(x, params)[1])
 # add initial turbine location to plot
 figure()
 for i = 1:length(turbine_x)
-    plt.gcf().gca().add_artist(plt.Circle((turbine_x[i],turbine_y[i]), rotor_diameter[1]/2.0, fill=false, color="C0", linestyle="--"))
+    plt.gcf().gca().add_artist(plt.Circle((turbine_x[i],turbine_y[i]), rotor_diameter[1]/2.0, fill=false, color="C0", linestyle="--", alpha=0.3))
 end
 
 # get number of design variables
