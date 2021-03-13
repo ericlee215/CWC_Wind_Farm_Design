@@ -2,8 +2,8 @@ import FlowFarm; const ff = FlowFarm
 using DelimitedFiles 
 
 # set initial turbine x and y locations
-turbine_x = [-3.0, 0.0, 3.0, 0.0, 0.0, -1.5, 0.0, 1.5, 0.0].*80.0
-turbine_y = [0.0, 3.0, 0.0, -3.0, 0.0, 0.0, 1.5, 0.0, -1.5].*80.0
+turbine_x = [-3.0, 0.0, 3.0, 0.0, 0.0, -1.5, 0.0, 1.5, 0.0].*150.0
+turbine_y = [0.0, 3.0, 0.0, -3.0, 0.0, 0.0, 1.5, 0.0, -1.5].*150.0
 
 # calculate the number of turbines
 nturbines = length(turbine_x)
