@@ -1,5 +1,5 @@
 #=
-This script uses Ipopt (nonlinear solver) to optimize the turbine locations in a circular-boundary wind farm.
+This script uses Ipopt (nonlinear solver) to optimize the turbine locations in a polygon-boundary wind farm.
 =#
 
 using Ipopt
@@ -12,8 +12,8 @@ import ForwardDiff
 # ============================= USER INPUTS IN THIS BLOCK ==========================
 # ==================================================================================
 
-# BOUNDARY RADIUS:
-boundary_radius = 600.0
+# SET THE BOUNDARY FILE:
+boundary_file = "input/boundary_files/example_boundary.txt"
 
 # INITIAL LAYOUT FILE PATH:
 initial_layout_file = "input/initial_layouts/example_initial_layout.txt"
@@ -43,8 +43,8 @@ final_layout_figure_file = "output/final_layout_figures/example_final_layout_fig
 # set up boundary constraint wrapper function
 function boundary_wrapper(x, params)
     # include relevant globals
-    params.boundary_center
-    params.boundary_radius
+    params.boundary_vertices
+    params.boundary_normals
 
     # get number of turbines
     nturbines = Int(length(x)/2)
@@ -54,7 +54,7 @@ function boundary_wrapper(x, params)
     turbine_y = x[nturbines+1:end]
 
     # get and return boundary distances
-    return ff.circle_boundary(boundary_center, boundary_radius, turbine_x, turbine_y)
+    return ff.ray_trace_boundary(boundary_vertices, boundary_normals, turbine_x, turbine_y)
 end
 
 # set up spacing constraint wrapper function
@@ -169,22 +169,24 @@ end
 # import model set with wind farm and related details
 include(model_set_file)
 
-# scale objective to be between 0 and 1
+# scale objective to be approximately between 0 and 1
 obj_scale = 1E-11
 
 # set wind farm boundary parameters
-boundary_center = [0.0,0.0]
+boundary_vertices = readdlm(boundary_file, skipstart=1)
+include("input/boundary_files/boundary_normals_calculator.jl")
+boundary_normals = boundary_normals_calculator(boundary_vertices)
 
 # set globals for use in wrapper functions
-struct params_struct{}
+struct params_struct2{}
     model_set
     rotor_points_y
     rotor_points_z
     turbine_z
     ambient_ti
     rotor_diameter
-    boundary_center
-    boundary_radius
+    boundary_vertices
+    boundary_normals
     obj_scale
     hub_height
     turbine_yaw
@@ -198,8 +200,8 @@ struct params_struct{}
     power_models
 end
 
-params = params_struct(model_set, rotor_points_y, rotor_points_z, turbine_z, ambient_ti, 
-    rotor_diameter, boundary_center, boundary_radius, obj_scale, hub_height, turbine_yaw, 
+params = params_struct2(model_set, rotor_points_y, rotor_points_z, turbine_z, ambient_ti, 
+    rotor_diameter, boundary_vertices, boundary_normals, obj_scale, hub_height, turbine_yaw, 
     ct_models, generator_efficiency, cut_in_speed, cut_out_speed, rated_speed, rated_power, 
     windresource, power_models)
 
@@ -236,11 +238,11 @@ n_boundaryconstraints = length(boundary_wrapper(x, params))
 n_constraints = n_spacingconstraints + n_boundaryconstraints
 
 # set general lower and upper bounds for design variables
-lb = ones(n_designvariables) * -Inf     # no lower bound (boundary constraint will ensure the turbines stay relatively close together)
-ub = ones(n_designvariables) * Inf      # no upper bound
+lb = ones(n_designvariables) * -Inf
+ub = ones(n_designvariables) * Inf
 
 # set lower and upper bounds for constraints
-lb_g = ones(n_constraints) * -Inf   # no lower bound
+lb_g = ones(n_constraints) * -Inf
 ub_g = zeros(n_constraints)
 
 # generate wrapper function surrogates
@@ -281,7 +283,7 @@ for i = 1:length(wec_values)
     # warm start the optimization with the most recent turbine coordinates found
     global x
     global xopt
-    prob.x = x
+    prob.x = deepcopy(x)
 
     # optimize
     t1 = time()
@@ -296,7 +298,7 @@ for i = 1:length(wec_values)
 
     # print optimization results
     println("Finished in : ", clk, " (s)")
-    println("Info: ", info[i])
+    println("Info: ", info)
     println("End objective value: ", -fopt[i])
 
     # save the optimized coordinates to be used as the starting point for the next optimization run
@@ -335,11 +337,11 @@ for i = 1:length(turbine_x)
 end
 
 # add wind farm boundary to plot
-plt.gcf().gca().add_artist(plt.Circle((boundary_center[1],boundary_center[2]), boundary_radius, fill=false,color="C2"))
+plt.gcf().gca().plot([boundary_vertices[:,1];boundary_vertices[1,1]],[boundary_vertices[:,2];boundary_vertices[1,2]], color="C2")
 
 # set up and save/show plot
 axis("square")
-xlim(-boundary_radius-200,boundary_radius+200)
-ylim(-boundary_radius-200,boundary_radius+200)
+xlim(minimum(boundary_vertices) - (maximum(boundary_vertices)-minimum(boundary_vertices))/5, maximum(boundary_vertices) + (maximum(boundary_vertices)-minimum(boundary_vertices))/5)
+ylim(minimum(boundary_vertices) - (maximum(boundary_vertices)-minimum(boundary_vertices))/5, maximum(boundary_vertices) + (maximum(boundary_vertices)-minimum(boundary_vertices))/5)
 savefig(final_layout_figure_file, dpi=600)
 # plt.show()

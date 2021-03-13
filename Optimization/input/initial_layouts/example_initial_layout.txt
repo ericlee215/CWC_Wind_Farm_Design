@@ -1,0 +1,10 @@
+# example intiial layout (x,y) (NOTE: the coordinates must start on line 2 of the file)
+-600.0  0.0
+0.0     600.0
+600.0   0.0
+0.0     -600.0
+0.0     0.0
+-300.0  0.0
+0.0     300.0
+300.0   0.0
+0.0     -300.0
