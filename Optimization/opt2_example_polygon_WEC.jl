@@ -1,9 +1,15 @@
+#=
+This script uses Ipopt (nonlinear solver) to optimize the turbine locations in a polygon-boundary wind farm.
+=#
+
 using Ipopt
 using DelimitedFiles 
 using PyPlot
 import ForwardDiff
 
-### uses a Julia interface to the Ipopt nonlinear solver
+# ==================================================================================
+# ========================= FLOWFARM WRAPPER FUNCTIONS =============================
+# ==================================================================================
 
 # set up boundary constraint wrapper function
 function boundary_wrapper(x, params)
@@ -75,6 +81,11 @@ function aep_wrapper(x, params)
     return [AEP]
 end
 
+
+# ==================================================================================
+# ====================== FUNCTIONS FOR IPOPT (OPTIMIZER) ===========================
+# ==================================================================================
+
 # objective function
 function obj(x) 
     return -aep_wrapper(x)[1]
@@ -121,8 +132,13 @@ function con_grad(x, mode, rows, cols, values)
     end
 end
 
+
+# ==================================================================================
+# ========================= SET UP FLOWFARM PARAMETERS =============================
+# ==================================================================================
+
 # import model set with wind farm and related details
-include("./model_sets/model_set_1.jl")
+include("./model_sets/model_set_1_test.jl")
 
 # scale objective to be between 0 and 1
 obj_scale = 1E-11
@@ -158,6 +174,11 @@ params = params_struct2(model_set, rotor_points_y, rotor_points_z, turbine_z, am
     rotor_diameter, boundary_vertices, boundary_normals, obj_scale, hub_height, turbine_yaw, 
     ct_models, generator_efficiency, cut_in_speed, cut_out_speed, rated_speed, rated_power, 
     windresource, power_models)
+
+
+# ==================================================================================
+# ============================= SET UP OPTIMIZATION ================================
+# ==================================================================================
 
 # initialize design variable array
 x = [copy(turbine_x);copy(turbine_y)]
@@ -200,53 +221,82 @@ spacing_wrapper(x) = spacing_wrapper(x, params)
 aep_wrapper(x) = aep_wrapper(x, params)
 boundary_wrapper(x) = boundary_wrapper(x, params)
 
-# create the problem
+# create the optimization problem
 prob = createProblem(n_designvariables, lb, ub, n_constraints, lb_g, ub_g, n_designvariables*n_constraints, 0,
     obj, con, obj_grad, con_grad)
 addOption(prob, "hessian_approximation", "limited-memory")
 
-# set up for WEC optimization
+# set up for WEC (wake expansion coefficient) optimization
 wec_steps = 6
 wec_max = 3.0
 wec_end = 1.0
 wec_values = collect(LinRange(wec_max, wec_end, wec_steps))
-println(wec_values)
-info = fill("",wec_steps)
 
-# run and time optimization
-t1t = time()
-for i =1:length(wec_values)
-    global x
-    global xopt
+# intialize 
+xopt = fill(zeros(1), wec_steps)
+fopt = fill(0.0, wec_steps)
+info = fill("", wec_steps)
+
+
+# ==================================================================================
+# ========================== RUN AND TIME OPTIMIZATION =============================
+# ==================================================================================
+
+t1t = time()    # start optimization timer
+
+# perform an optimization for each decreasing WEC value
+for i = 1:length(wec_values)
+
+    # set the WEC value in FlowFarm
     println("Running with WEC = ", wec_values[i])
     params.model_set.wake_deficit_model.wec_factor[1] = wec_values[i]
+
+    # warm start the optimization with the most recent turbine coordinates found
+    global x
+    global xopt
     prob.x = x
 
+    # optimize
     t1 = time()
-    status = solveProblem(prob)
+    status = solveProblem(prob)     # this runs the optimization
     t2 = time()
     clk = t2-t1
-    xopt = prob.x
-    fopt = prob.obj_val
-    info = Ipopt.ApplicationReturnStatus[status]
+
+    # get results from the optimizer
+    xopt[i] = prob.x           # design variables (turbine coordinates)
+    fopt[i] = prob.obj_val     # objective value (annual energy production or AEP)
+    info[i] = String(Ipopt.ApplicationReturnStatus[status])    # optimization info
+
     # print optimization results
     println("Finished in : ", clk, " (s)")
-    println("info: ", info)
-    println("end objective value: ", -fopt)
-    println("locations ", x[1:5])
-    println("locations opt ", xopt[1:5])
-    x = deepcopy(xopt)
+    println("Info: ", info)
+    println("End objective value: ", -fopt)
+    # println("Initial locations: ", x[1:5], ", ...")
+    # println("Optimized locations: ", xopt[i][1:5], ", ...")
+
+    # save the optimized coordinates to be used as the starting point for the next optimization run
+    x = deepcopy(xopt[i])
+
 end
-t2t = time()
-clkt = t2t - t1t
+
+t2t = time()        # stop optimization timer
+clkt = t2t - t1t    # calculate total optimization time
+
+
+# ==================================================================================
+# ========================== SHOW OPTIMIZATION RESULTS =============================
+# ==================================================================================
+
 # print optimization results
+println("\n\n============ FINAL OPTIMIZATION RESULTS =============\n")
 println("Finished in : ", clkt, " (s)")
 println("info: ", info)
-println("end objective value: ", aep_wrapper(xopt)[1])
+println("end objective value: ", aep_wrapper(xopt[end])[1])
+println()
 
 # extract final turbine locations
-turbine_x = copy(xopt[1:nturbines])
-turbine_y = copy(xopt[nturbines+1:end])
+turbine_x = copy(xopt[end][1:nturbines])
+turbine_y = copy(xopt[end][nturbines+1:end])
 
 # add final turbine locations to plot
 for i = 1:length(turbine_x)
