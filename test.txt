@@ -1,1 +1,11 @@
 Git hub test file
+
+Clone a directory
+
+make changes to the directory
+
+Add those changes
+
+Commit Changes and leave a comment
+
+Push them to git hub
