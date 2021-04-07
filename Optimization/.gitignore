@@ -1,0 +1,4 @@
+ipopt.opt
+*.png
+*.pdf
+output/*
