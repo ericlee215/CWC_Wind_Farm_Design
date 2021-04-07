@@ -1,0 +1,4 @@
+Optimization/ipopt.opt
+*.png
+*.pdf
+Optimization/output/*
