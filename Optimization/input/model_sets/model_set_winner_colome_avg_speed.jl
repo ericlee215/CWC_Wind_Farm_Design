@@ -1,4 +1,4 @@
-import FlowFarm; const ff = FlowFarm
+import FLOWFarm; const ff = FLOWFarm
 using DelimitedFiles 
 
 # get initial turbine x and y locations
@@ -23,7 +23,11 @@ rotor_points_y = [0.0]
 rotor_points_z = [0.0]
 
 # set flow parameters
-winddirections, windspeeds, windprobabilities, ambient_ti = ff.get_wind_rose_YAML(windrose_file)
+wind_data = YAML.load_file(windrose_file)["definitions"]["wind_inflow"]["properties"]
+winddirections = wind_data["direction"]["bins"]
+windspeeds = wind_data["speed"]["bins"]
+windprobabilities = wind_data["direction"]["frequency"]
+ambient_ti = wind_data["turbulence_intensity"]["default"]
 nstates = length(winddirections)
 winddirections *= pi/180.0
 air_density = 1.1716  # kg/m^3

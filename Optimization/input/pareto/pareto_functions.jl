@@ -1,25 +1,6 @@
 using NLopt, FillArrays
 
 """
-    NLoptAlgorithmParam(opt_algorithm, opt_tolerance, con_tolerance)
-
-Container to hold algorithm parameters for the NLopt optimization package.
-
-# Arguments
-- `opt_algorithm::Symbol`: Symbol specifying the optimization algorithm, according to the NLopt.jl documentation (https://github.com/JuliaOpt/NLopt.jl#the-opt-type)
-- `opt_tolerance::Float64`: Optimality tolerance
-- `con_tolerance::Float64`: Constraint tolerance
-"""
-struct NLoptAlgorithmParam
-    opt_algorithm
-    opt_tolerance
-    con_tolerance
-    max_eval
-end
-NLoptAlgorithmParam() = NLoptAlgorithmParam(:GN_ISRES, 1e-6, 1e-8, Int(1e6))
-NLoptAlgorithmParam(opt_algorithm) = NLoptAlgorithmParam(opt_algorithm, 1e-6, 1e-8, Int(1e6))
-
-"""
     ParetoFrontEpsilonConstraintParam(objective_1, objective_2, epsilon)
 
 Container to hold parameters and functions to create a pareto front using the epsilon-constraint method.
@@ -61,7 +42,7 @@ Generates the 2D Pareto front.
 - `pareto_param::ParetoFrontEpsilonConstraintParam`: Container to hold parameters and functions to create a pareto front using the epsilon-constraint method.
 - `opt_algorithm_param::NLoptAlgorithmParam`: Container to hold algorithm parameters for the NLopt optimization package.
 """
-function generate_2D_pareto_points(design_variables_param::OptDesignVariablesParam, pareto_param::ParetoFrontEpsilonConstraintParam, opt_algorithm_param::NLoptAlgorithmParam)
+function generate_2D_pareto_points(design_variables_param::OptDesignVariablesParam, pareto_param::ParetoFrontEpsilonConstraintParam, opt_algorithm_param::NLoptAlgorithmParam; non_pareto_con! = [], non_pareto_con_tolerance=[])
 
     # get number of epsilon values, starting point samples, and design variables
     n_epsilon = length(pareto_param.epsilon)
@@ -85,6 +66,9 @@ function generate_2D_pareto_points(design_variables_param::OptDesignVariablesPar
         # pass objective and constraint functions into optimization object
         opt.min_objective = obj!
         inequality_constraint!(opt, (x,g) -> con_epsilon!(x,g,epsilon), opt_algorithm_param.con_tolerance)
+        if non_pareto_con! != []
+            inequality_constraint!(opt, non_pareto_con!, non_pareto_con_tolerance)
+        end
         # set optimization tolerance, bounds for design variables, and maximum allowed function evaluations
         opt.xtol_rel = opt_algorithm_param.opt_tolerance
         opt.lower_bounds = design_variables_param.lower_bound

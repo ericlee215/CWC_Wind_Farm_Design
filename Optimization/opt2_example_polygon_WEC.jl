@@ -173,7 +173,7 @@ include(model_set_file)
 obj_scale = 1E-11
 
 # set wind farm boundary parameters
-boundary_vertices = readdlm(boundary_file, skipstart=1)
+boundary_vertices = readdlm(boundary_file, skipstart=1) .* 1609.0   # convert from miles to meters
 include("input/boundary_files/boundary_normals_calculator.jl")
 boundary_normals = boundary_normals_calculator(boundary_vertices)
 

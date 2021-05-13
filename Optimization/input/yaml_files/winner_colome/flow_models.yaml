@@ -1,0 +1,19 @@
+title: "Flow models"
+description: ""
+definitions:
+  wake_deficit:
+    description: "Describes the deficit in wind velocity within a wind turbine wake"
+    model: GaussYawVariableSpread
+    parameters: []
+  wake_deflection:
+    description: "Describes the deflection of a wind turbine wake as it moves downstream"
+    model: GaussYawVariableSpreadDeflection
+    parameters: []
+  wake_combination:
+    description: "Describes how the wind velocity deficits combine when multiple wakes overlap and mix together"
+    model: LinearLocalVelocitySuperposition
+    parameters: []
+  local_ti:
+    description: "Describes how turbulence intensity is calculated"
+    model: LocalTIModelMaxTI
+    parameters: []

@@ -1,0 +1,10 @@
+title: Winner-Colome wind farm site boundary
+description: Created for the BYU's participation in the 2021 CWC Wind Farm Design Task
+
+boundaries:
+  zone_1:
+    position:
+      - [    0.0,      0.0]
+      - [16090.0,      0.0]
+      - [16090.0, -6033.75]
+      - [    0.0, -6033.75]

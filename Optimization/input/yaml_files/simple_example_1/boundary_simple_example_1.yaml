@@ -1,0 +1,10 @@
+title: Simple rectangular wind farm site boundary
+description: Created by the BYU Wind Energy Club for testing purposes
+
+boundaries:
+  zone_1:
+    position:
+      - [   0.0,    0.0]
+      - [1500.0,    0.0]
+      - [1500.0, 1500.0]
+      - [   0.0, 1500.0]

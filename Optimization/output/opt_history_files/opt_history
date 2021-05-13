@@ -1,0 +1,317 @@
+
+******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit http://projects.coin-or.org/Ipopt
+******************************************************************************
+
+This is Ipopt version 3.13.2, running with linear solver mumps.
+NOTE: Other linear solvers might be more efficient (see Ipopt documentation).
+
+Number of nonzeros in equality constraint Jacobian...:        0
+Number of nonzeros in inequality constraint Jacobian.:      810
+Number of nonzeros in Lagrangian Hessian.............:        0
+
+Total number of variables............................:       18
+                     variables with only lower bounds:        0
+                variables with lower and upper bounds:        0
+                     variables with only upper bounds:        0
+Total number of equality constraints.................:        0
+Total number of inequality constraints...............:       45
+        inequality constraints with only lower bounds:        0
+   inequality constraints with lower and upper bounds:        0
+        inequality constraints with only upper bounds:       45
+
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+   0 -7.0559635e-01 0.00e+00 1.12e+00   0.0 0.00e+00    -  0.00e+00 0.00e+00   0
+   1 -7.0557772e-01 0.00e+00 1.55e+00  -3.3 2.36e-04    -  9.90e-01 2.23e-308h1023
+WARNING: Problem in step computation; switching to emergency mode.
+Restoration phase is called at point that is almost feasible,
+  with constraint violation 0.000000e+00. Abort.
+
+Number of Iterations....: 1
+
+                                   (scaled)                 (unscaled)
+Objective...............:  -7.0557771905693079e-01   -7.0557771905693079e-01
+Dual infeasibility......:   1.5522487603400430e+00    1.5522487603400430e+00
+Constraint violation....:   0.0000000000000000e+00    0.0000000000000000e+00
+Complementarity.........:   1.0872008049604812e+01    1.0872008049604812e+01
+Overall NLP error.......:   1.0872008049604812e+01    1.0872008049604812e+01
+
+
+Number of objective function evaluations             = 1028
+Number of objective gradient evaluations             = 2
+Number of equality constraint evaluations            = 0
+Number of inequality constraint evaluations          = 1028
+Number of equality constraint Jacobian evaluations   = 0
+Number of inequality constraint Jacobian evaluations = 2
+Number of Lagrangian Hessian evaluations             = 0
+Total CPU secs in IPOPT (w/o function evaluations)   =      6.258
+Total CPU secs in NLP function evaluations           =      1.394
+
+EXIT: Restoration Failed!
+WARNING: Tried to set option "output_file" to a value of "output/opt_history_files/opt_history",
+         but the previous value is set to disallow clobbering.
+         The setting will remain as: "output_file output/opt_history_files/opt_history"
+WARNING: Tried to set option "max_iter" to a value of "300",
+         but the previous value is set to disallow clobbering.
+         The setting will remain as: "max_iter 300"
+WARNING: Tried to set option "tol" to a value of "1e-05",
+         but the previous value is set to disallow clobbering.
+         The setting will remain as: "tol 1e-05"
+This is Ipopt version 3.13.2, running with linear solver mumps.
+NOTE: Other linear solvers might be more efficient (see Ipopt documentation).
+
+Number of nonzeros in equality constraint Jacobian...:        0
+Number of nonzeros in inequality constraint Jacobian.:      810
+Number of nonzeros in Lagrangian Hessian.............:        0
+
+Total number of variables............................:       18
+                     variables with only lower bounds:        0
+                variables with lower and upper bounds:        0
+                     variables with only upper bounds:        0
+Total number of equality constraints.................:        0
+Total number of inequality constraints...............:       45
+        inequality constraints with only lower bounds:        0
+   inequality constraints with lower and upper bounds:        0
+        inequality constraints with only upper bounds:       45
+
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+   0 -7.5129157e-01 0.00e+00 1.00e+00   0.0 0.00e+00    -  0.00e+00 0.00e+00   0
+WARNING: Problem in step computation; switching to emergency mode.
+Restoration phase is called at point that is almost feasible,
+  with constraint violation 0.000000e+00. Abort.
+
+Number of Iterations....: 0
+
+                                   (scaled)                 (unscaled)
+Objective...............:  -7.5129156589247614e-01   -7.5129156589247614e-01
+Dual infeasibility......:   1.0000000000000000e+00    1.0000000000000000e+00
+Constraint violation....:   0.0000000000000000e+00    0.0000000000000000e+00
+Complementarity.........:   1.0872000000099999e+03    1.0872000000099999e+03
+Overall NLP error.......:   1.0872000000099999e+03    1.0872000000099999e+03
+
+
+Number of objective function evaluations             = 1
+Number of objective gradient evaluations             = 1
+Number of equality constraint evaluations            = 0
+Number of inequality constraint evaluations          = 1
+Number of equality constraint Jacobian evaluations   = 0
+Number of inequality constraint Jacobian evaluations = 1
+Number of Lagrangian Hessian evaluations             = 0
+Total CPU secs in IPOPT (w/o function evaluations)   =      0.009
+Total CPU secs in NLP function evaluations           =      0.006
+
+EXIT: Restoration Failed!
+WARNING: Tried to set option "output_file" to a value of "output/opt_history_files/opt_history",
+         but the previous value is set to disallow clobbering.
+         The setting will remain as: "output_file output/opt_history_files/opt_history"
+WARNING: Tried to set option "max_iter" to a value of "300",
+         but the previous value is set to disallow clobbering.
+         The setting will remain as: "max_iter 300"
+WARNING: Tried to set option "tol" to a value of "1e-05",
+         but the previous value is set to disallow clobbering.
+         The setting will remain as: "tol 1e-05"
+This is Ipopt version 3.13.2, running with linear solver mumps.
+NOTE: Other linear solvers might be more efficient (see Ipopt documentation).
+
+Number of nonzeros in equality constraint Jacobian...:        0
+Number of nonzeros in inequality constraint Jacobian.:      810
+Number of nonzeros in Lagrangian Hessian.............:        0
+
+Total number of variables............................:       18
+                     variables with only lower bounds:        0
+                variables with lower and upper bounds:        0
+                     variables with only upper bounds:        0
+Total number of equality constraints.................:        0
+Total number of inequality constraints...............:       45
+        inequality constraints with only lower bounds:        0
+   inequality constraints with lower and upper bounds:        0
+        inequality constraints with only upper bounds:       45
+
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+   0 -8.0496090e-01 0.00e+00 1.00e+00   0.0 0.00e+00    -  0.00e+00 0.00e+00   0
+WARNING: Problem in step computation; switching to emergency mode.
+Restoration phase is called at point that is almost feasible,
+  with constraint violation 0.000000e+00. Abort.
+
+Number of Iterations....: 0
+
+                                   (scaled)                 (unscaled)
+Objective...............:  -8.0496089953091809e-01   -8.0496089953091809e-01
+Dual infeasibility......:   1.0000000000000000e+00    1.0000000000000000e+00
+Constraint violation....:   0.0000000000000000e+00    0.0000000000000000e+00
+Complementarity.........:   1.0872000000099999e+03    1.0872000000099999e+03
+Overall NLP error.......:   1.0872000000099999e+03    1.0872000000099999e+03
+
+
+Number of objective function evaluations             = 1
+Number of objective gradient evaluations             = 1
+Number of equality constraint evaluations            = 0
+Number of inequality constraint evaluations          = 1
+Number of equality constraint Jacobian evaluations   = 0
+Number of inequality constraint Jacobian evaluations = 1
+Number of Lagrangian Hessian evaluations             = 0
+Total CPU secs in IPOPT (w/o function evaluations)   =      0.011
+Total CPU secs in NLP function evaluations           =      0.008
+
+EXIT: Restoration Failed!
+WARNING: Tried to set option "output_file" to a value of "output/opt_history_files/opt_history",
+         but the previous value is set to disallow clobbering.
+         The setting will remain as: "output_file output/opt_history_files/opt_history"
+WARNING: Tried to set option "max_iter" to a value of "300",
+         but the previous value is set to disallow clobbering.
+         The setting will remain as: "max_iter 300"
+WARNING: Tried to set option "tol" to a value of "1e-05",
+         but the previous value is set to disallow clobbering.
+         The setting will remain as: "tol 1e-05"
+This is Ipopt version 3.13.2, running with linear solver mumps.
+NOTE: Other linear solvers might be more efficient (see Ipopt documentation).
+
+Number of nonzeros in equality constraint Jacobian...:        0
+Number of nonzeros in inequality constraint Jacobian.:      810
+Number of nonzeros in Lagrangian Hessian.............:        0
+
+Total number of variables............................:       18
+                     variables with only lower bounds:        0
+                variables with lower and upper bounds:        0
+                     variables with only upper bounds:        0
+Total number of equality constraints.................:        0
+Total number of inequality constraints...............:       45
+        inequality constraints with only lower bounds:        0
+   inequality constraints with lower and upper bounds:        0
+        inequality constraints with only upper bounds:       45
+
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+   0 -8.6857945e-01 0.00e+00 1.00e+00   0.0 0.00e+00    -  0.00e+00 0.00e+00   0
+WARNING: Problem in step computation; switching to emergency mode.
+Restoration phase is called at point that is almost feasible,
+  with constraint violation 0.000000e+00. Abort.
+
+Number of Iterations....: 0
+
+                                   (scaled)                 (unscaled)
+Objective...............:  -8.6857944537127385e-01   -8.6857944537127385e-01
+Dual infeasibility......:   1.0000000000000000e+00    1.0000000000000000e+00
+Constraint violation....:   0.0000000000000000e+00    0.0000000000000000e+00
+Complementarity.........:   1.0872000000099999e+03    1.0872000000099999e+03
+Overall NLP error.......:   1.0872000000099999e+03    1.0872000000099999e+03
+
+
+Number of objective function evaluations             = 1
+Number of objective gradient evaluations             = 1
+Number of equality constraint evaluations            = 0
+Number of inequality constraint evaluations          = 1
+Number of equality constraint Jacobian evaluations   = 0
+Number of inequality constraint Jacobian evaluations = 1
+Number of Lagrangian Hessian evaluations             = 0
+Total CPU secs in IPOPT (w/o function evaluations)   =      0.011
+Total CPU secs in NLP function evaluations           =      0.013
+
+EXIT: Restoration Failed!
+WARNING: Tried to set option "output_file" to a value of "output/opt_history_files/opt_history",
+         but the previous value is set to disallow clobbering.
+         The setting will remain as: "output_file output/opt_history_files/opt_history"
+WARNING: Tried to set option "max_iter" to a value of "300",
+         but the previous value is set to disallow clobbering.
+         The setting will remain as: "max_iter 300"
+WARNING: Tried to set option "tol" to a value of "1e-05",
+         but the previous value is set to disallow clobbering.
+         The setting will remain as: "tol 1e-05"
+This is Ipopt version 3.13.2, running with linear solver mumps.
+NOTE: Other linear solvers might be more efficient (see Ipopt documentation).
+
+Number of nonzeros in equality constraint Jacobian...:        0
+Number of nonzeros in inequality constraint Jacobian.:      810
+Number of nonzeros in Lagrangian Hessian.............:        0
+
+Total number of variables............................:       18
+                     variables with only lower bounds:        0
+                variables with lower and upper bounds:        0
+                     variables with only upper bounds:        0
+Total number of equality constraints.................:        0
+Total number of inequality constraints...............:       45
+        inequality constraints with only lower bounds:        0
+   inequality constraints with lower and upper bounds:        0
+        inequality constraints with only upper bounds:       45
+
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+   0 -9.3290312e-01 0.00e+00 1.00e+00   0.0 0.00e+00    -  0.00e+00 0.00e+00   0
+WARNING: Problem in step computation; switching to emergency mode.
+Restoration phase is called at point that is almost feasible,
+  with constraint violation 0.000000e+00. Abort.
+
+Number of Iterations....: 0
+
+                                   (scaled)                 (unscaled)
+Objective...............:  -9.3290311646440160e-01   -9.3290311646440160e-01
+Dual infeasibility......:   1.0000000000000000e+00    1.0000000000000000e+00
+Constraint violation....:   0.0000000000000000e+00    0.0000000000000000e+00
+Complementarity.........:   1.0872000000099999e+03    1.0872000000099999e+03
+Overall NLP error.......:   1.0872000000099999e+03    1.0872000000099999e+03
+
+
+Number of objective function evaluations             = 1
+Number of objective gradient evaluations             = 1
+Number of equality constraint evaluations            = 0
+Number of inequality constraint evaluations          = 1
+Number of equality constraint Jacobian evaluations   = 0
+Number of inequality constraint Jacobian evaluations = 1
+Number of Lagrangian Hessian evaluations             = 0
+Total CPU secs in IPOPT (w/o function evaluations)   =      0.008
+Total CPU secs in NLP function evaluations           =      0.005
+
+EXIT: Restoration Failed!
+WARNING: Tried to set option "output_file" to a value of "output/opt_history_files/opt_history",
+         but the previous value is set to disallow clobbering.
+         The setting will remain as: "output_file output/opt_history_files/opt_history"
+WARNING: Tried to set option "max_iter" to a value of "300",
+         but the previous value is set to disallow clobbering.
+         The setting will remain as: "max_iter 300"
+WARNING: Tried to set option "tol" to a value of "1e-05",
+         but the previous value is set to disallow clobbering.
+         The setting will remain as: "tol 1e-05"
+This is Ipopt version 3.13.2, running with linear solver mumps.
+NOTE: Other linear solvers might be more efficient (see Ipopt documentation).
+
+Number of nonzeros in equality constraint Jacobian...:        0
+Number of nonzeros in inequality constraint Jacobian.:      810
+Number of nonzeros in Lagrangian Hessian.............:        0
+
+Total number of variables............................:       18
+                     variables with only lower bounds:        0
+                variables with lower and upper bounds:        0
+                     variables with only upper bounds:        0
+Total number of equality constraints.................:        0
+Total number of inequality constraints...............:       45
+        inequality constraints with only lower bounds:        0
+   inequality constraints with lower and upper bounds:        0
+        inequality constraints with only upper bounds:       45
+
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+   0 -9.7338614e-01 0.00e+00 1.00e+00   0.0 0.00e+00    -  0.00e+00 0.00e+00   0
+WARNING: Problem in step computation; switching to emergency mode.
+Restoration phase is called at point that is almost feasible,
+  with constraint violation 0.000000e+00. Abort.
+
+Number of Iterations....: 0
+
+                                   (scaled)                 (unscaled)
+Objective...............:  -9.7338614364823628e-01   -9.7338614364823628e-01
+Dual infeasibility......:   1.0000000000000000e+00    1.0000000000000000e+00
+Constraint violation....:   0.0000000000000000e+00    0.0000000000000000e+00
+Complementarity.........:   1.0872000000099999e+03    1.0872000000099999e+03
+Overall NLP error.......:   1.0872000000099999e+03    1.0872000000099999e+03
+
+
+Number of objective function evaluations             = 1
+Number of objective gradient evaluations             = 1
+Number of equality constraint evaluations            = 0
+Number of inequality constraint evaluations          = 1
+Number of equality constraint Jacobian evaluations   = 0
+Number of inequality constraint Jacobian evaluations = 1
+Number of Lagrangian Hessian evaluations             = 0
+Total CPU secs in IPOPT (w/o function evaluations)   =      0.008
+Total CPU secs in NLP function evaluations           =      0.005
+
+EXIT: Restoration Failed!
