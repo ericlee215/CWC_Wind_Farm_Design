@@ -89,29 +89,29 @@ module Cable_Analysis
 
         end
 
-        if plot_tree
+        # if plot_tree
 
-            #plot the tree
+        #     #plot the tree
 
-            for i in network
+        #     for i in network
 
-                PyPlot.plot(i.loc[1],i.loc[2],"ro")
+        #         PyPlot.plot(i.loc[1],i.loc[2],"ro")
 
-            end
+        #     end
 
-            #link each node on the plotted tree
-            for i in 2:length(prev)
+        #     #link each node on the plotted tree
+        #     for i in 2:length(prev)
                 
-                x = [network[i].loc[1], network[prev[i]].loc[1]]
-                y = [network[i].loc[2], network[prev[i]].loc[2]]
+        #         x = [network[i].loc[1], network[prev[i]].loc[1]]
+        #         y = [network[i].loc[2], network[prev[i]].loc[2]]
                 
-                PyPlot.plot(x,y,"b-")
+        #         PyPlot.plot(x,y,"b-")
 
-            end
+        #     end
 
-            PyPlot.show()
+        #     PyPlot.show()
 
-        end
+        # end
 
         return total_cost
 
