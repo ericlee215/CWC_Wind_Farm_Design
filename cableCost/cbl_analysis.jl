@@ -39,7 +39,7 @@ module Cable_Analysis
         # make the prev vector
         prev = []
 
-        for in in 1:length(network)
+        for i in 1:length(network)
 
             push!(prev, -1)
 
@@ -68,31 +68,28 @@ module Cable_Analysis
                     # and the edge is not being used
                     if prev[edge.src.node_id] != edge.dest.node_id
 
-                        # change the arrangement
-                        prev[edge.dest.node_id] = edge.src.node_id
-                        cost[edge.dest.node_id] = edge.length
-                        queue[edge.dest] = edge.length
+                        # check for loops
+                        previous = deepcopy(prev)
+                        previous[edge.dest.node_id] = edge.src.node_id
+
+                        if !loopCheck(previous, edge.dest.node_id)
+
+                            # change the arrangement
+                            prev[edge.dest.node_id] = edge.src.node_id
+                            cost[edge.dest.node_id] = edge.length
+                            queue[edge.dest] = edge.length
+
+                        end
+  
                     end
 
                 end
 
             end
 
-        end
-
-        # sum up the cost array
-        total_cost = 0
-
-        for i in cost
-
-            total_cost += i
-
-        end
-
-        if plot_tree
-
             #plot the tree
 
+            #=
             for i in network
 
                 PyPlot.plot(i.loc[1],i.loc[2],"ro")
@@ -109,7 +106,19 @@ module Cable_Analysis
 
             end
 
+
             PyPlot.show()
+
+            =#
+        end
+
+
+        # sum up the cost array
+        total_cost = 0
+
+        for i in cost
+
+            total_cost += i
 
         end
 
@@ -161,6 +170,34 @@ module Cable_Analysis
         cost = primAnalysis(windFarm, plot_tree=plot_tree)
 
         return cost * linear_cost
+
+    end
+
+
+    #A function to check for loops in a previous index array
+    function loopCheck(prev, index)
+
+        found = falses(length(prev))
+
+        indexExists = prev[index] != -1
+
+        while  indexExists && !found[index]
+
+            found[index] = true
+            index = prev[index]
+            indexExists = prev[index] != -1
+
+        end
+
+        if found[index]
+
+            return true
+
+        else
+
+            return false
+
+        end
 
     end
 end
