@@ -1,0 +1,23 @@
+title: Example wind farm constraints file
+description:
+
+definitions:
+  turbine_spacing:
+    description: spacing between adjacent turbines, normalized by the rotor diameter
+    enable: true
+    minimum: 
+      default: 2.0
+  
+  boundary:
+    description: distance from turbine to boundaries (- is feasible, + is infeasible)
+    enable: true
+    ref:
+      description: reference file name for each enclosed farm boundary
+      items: "boundary_simple_example_1.yaml"
+
+  cable_length:
+    description: length of the required cabling to connect all turbines (using minimum spanning tree)
+    enable: true
+    maximum:
+      units: m
+      default: 2000.0

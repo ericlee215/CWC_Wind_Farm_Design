@@ -3,7 +3,7 @@ AUTHOR: Wesley Holt
 PURPOSE: To generate intial turbine layouts for circular boundary farms.
 =#
 
-import FlowFarm; const ff = FlowFarm
+import FLOWFarm; const ff = FLOWFarm
 using PyPlot
 using DelimitedFiles
 
@@ -19,23 +19,23 @@ generate_layout_file = true
 generate_layout_figure = true
 
 # set up farm parameters
-nturbines = 9   # number of turbines
-boundary_center = [0.0 0.0] # x,y coordinates for the center of the farm
-boundary_radius = 600.0
+nturbines = 50   # number of turbines
+boundary_center = [6000.0 -3000.0] # x,y coordinates for the center of the farm
+boundary_radius = 5000.0
 rotor_diameter = 80.0
 layout_directory = "input/initial_layouts/"
 figure_directory = "input/initial_layout_figures/"
 
 # set how many layouts to generate/plot
 start_layout_number = 1
-end_layout_number = 10
+end_layout_number = 20
 layout_numbers = range(start_layout_number, stop=end_layout_number, step=1)
 
 # =========================================================================================
 # =========================================================================================
 # =========================================================================================
 
-function generate_random_layout_circle_boundary(layout_filename, nturbines, rotor_diameter, boundary_center, boundary_radius; layout_directory="", min_spacing=1.0, layout_number=0)
+function generate_random_layout_circle_boundary(layout_filename, nturbines, rotor_diameter, boundary_center, boundary_radius; layout_directory="", min_spacing=7.0, layout_number=0)
 
     # ----- SET UP -----
     # set bounding box
@@ -119,8 +119,8 @@ function plot_initial_layout_circle(figure_filename, layout_filename, rotor_diam
     plt.gcf().gca().add_artist(plt.Circle((boundary_center[1],boundary_center[2]), boundary_radius, fill=false,color="C2"))
     # set figure axes
     axis("square")
-    xlim(-boundary_radius-100,boundary_radius+100)
-    ylim(-boundary_radius-100,boundary_radius+100)
+    xlim(boundary_center[1] - boundary_radius*1.3, boundary_center[1] + boundary_radius*1.3)
+    ylim(boundary_center[2] - boundary_radius*1.3, boundary_center[1] + boundary_radius*1.3)
 
     # ----- SAVE/SHOW FIGURE -----
     # save figure (if specified)

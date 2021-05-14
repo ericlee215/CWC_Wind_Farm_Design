@@ -13,7 +13,7 @@ import ForwardDiff
 # ==================================================================================
 
 # BOUNDARY RADIUS:
-boundary_radius = 600.0
+boundary_radius = 0.5 * 1609.0 # miles * meters/mile
 
 # INITIAL LAYOUT FILE PATH:
 initial_layout_file = "input/initial_layouts/example_initial_layout.txt"
@@ -127,7 +127,7 @@ function con(x, g)
 
     # calculate boundary constraint
     boundary_con = boundary_wrapper(x)
-
+    println(boundary_con)
     # combine constaint values and jacobians into overall constaint value and jacobian arrays
     g[:] = [spacing_con; boundary_con]
 end
@@ -202,7 +202,6 @@ params = params_struct(model_set, rotor_points_y, rotor_points_z, turbine_z, amb
     rotor_diameter, boundary_center, boundary_radius, obj_scale, hub_height, turbine_yaw, 
     ct_models, generator_efficiency, cut_in_speed, cut_out_speed, rated_speed, rated_power, 
     windresource, power_models)
-
 
 # ==================================================================================
 # ============================= SET UP OPTIMIZATION ================================

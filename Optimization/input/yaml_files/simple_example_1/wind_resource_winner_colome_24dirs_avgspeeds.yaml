@@ -1,0 +1,152 @@
+title: "Wind resource"
+description: ""
+definitions:
+  wind_inflow:
+    properties:
+      direction:
+        description: "The wind direction frequencies. Binned in degrees, with North as the 0, going clockwise."
+        deg: "deg"
+        bins:
+          - 0.0
+          - 15.0
+          - 30.0
+          - 45.0
+          - 60.0
+          - 75.0
+          - 90.0
+          - 105.0
+          - 120.0
+          - 135.0
+          - 150.0
+          - 165.0
+          - 180.0
+          - 195.0
+          - 210.0
+          - 225.0
+          - 240.0
+          - 255.0
+          - 270.0
+          - 285.0
+          - 300.0
+          - 315.0
+          - 330.0
+          - 345.0
+        frequency:
+          - .03282
+          - .02588
+          - .02258
+          - .01802
+          - .01830
+          - .01958
+          - .02015
+          - .02274
+          - .02818
+          - .03957
+          - .05525
+          - .06838
+          - .07346
+          - .06064
+          - .04311
+          - .03116
+          - .02454
+          - .02393
+          - .02962
+          - .05185
+          - .08369
+          - .08853
+          - .07085
+          - .04717
+        minimum: 0.0
+        maximum: 360.0
+      speed:
+        description: "The wind speed frequency samples for each binned direction and wind speed."
+        units: "m/s"
+        minimum: .NaN
+        maximum: .NaN
+        average:
+          - 6.358
+          - 5.842
+          - 5.350
+          - 4.904
+          - 4.921
+          - 5.164
+          - 5.483
+          - 5.839
+          - 6.311
+          - 6.974
+          - 7.843
+          - 8.822
+          - 9.612
+          - 9.832
+          - 9.287
+          - 8.351
+          - 7.826
+          - 7.566
+          - 7.454
+          - 8.711
+          - 9.445
+          - 9.230
+          - 8.482
+          - 7.458
+      measurement_height:
+        description: "Measurement height"
+        units: "m"
+        default:
+          - 80.0
+          - 80.0
+          - 80.0
+          - 80.0
+          - 80.0
+          - 80.0
+          - 80.0
+          - 80.0
+          - 80.0
+          - 80.0
+          - 80.0
+          - 80.0
+          - 80.0
+          - 80.0
+          - 80.0
+          - 80.0
+          - 80.0
+          - 80.0
+          - 80.0
+          - 80.0
+          - 80.0
+          - 80.0
+          - 80.0
+          - 80.0
+      air_density:
+        description: "Air density"
+        units: "kg/m^3"
+        default: 1.225
+      turbulence_intensity:
+        description: "Turbulence intensity"
+        default:
+          - 0.075
+          - 0.075
+          - 0.075
+          - 0.075
+          - 0.075
+          - 0.075
+          - 0.075
+          - 0.075
+          - 0.075
+          - 0.075
+          - 0.075
+          - 0.075
+          - 0.075
+          - 0.075
+          - 0.075
+          - 0.075
+          - 0.075
+          - 0.075
+          - 0.075
+          - 0.075
+          - 0.075
+          - 0.075
+          - 0.075
+          - 0.075
+      shear_exponent:
+        description: "Shear exponent"
+        default: 0.31

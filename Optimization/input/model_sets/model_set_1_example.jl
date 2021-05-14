@@ -2,7 +2,7 @@ import FlowFarm; const ff = FlowFarm
 using DelimitedFiles 
 
 # get initial turbine x and y locations
-turbine_coordinates = readdlm(initial_layout_file, skipstart=1)
+turbine_coordinates = readdlm(initial_layout_file, skipstart=1) .* 1609.0   # convert miles to meters
 turbine_x = turbine_coordinates[:,1]
 turbine_y = turbine_coordinates[:,2]
 

@@ -1,0 +1,5 @@
+# example farm boundary vertices (x,y) (NOTE: the coordinates must start on line 2 of the file, must be counterclockwise)
+0.0     0.0
+16090.0 0.0
+16090.0 -6033.75
+0.0     -6033.75
