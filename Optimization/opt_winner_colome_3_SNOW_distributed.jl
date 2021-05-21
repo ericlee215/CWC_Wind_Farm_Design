@@ -193,16 +193,16 @@ snopt_opt_short = Dict(
     "Major iterations limit" => 10,
     "Major optimality tolerance" => 1e-5,
     "Minor feasibility tolerance" => 1e-6,
-    # "Summary file" => "output/opt_history_files/snopt_summary.out",
-    # "Print file" => "output/opt_history_files/snopt_print.out"
+    "Summary file" => "output/pareto/$(Int(max_cable_length))_meter_cable/opt_history_files/snopt_summary.out",
+    "Print file" => "output/pareto/$(Int(max_cable_length))_meter_cable/opt_history_files/snopt_print.out"
 )
 
 snopt_opt_full = Dict(
     "Major iterations limit" => 20,
     "Major optimality tolerance" => 1e-5,
     "Minor feasibility tolerance" => 1e-6,
-    # "Summary file" => "output/opt_history_files/snopt_summary.out",
-    # "Print file" => "output/opt_history_files/snopt_print.out"
+    "Summary file" => "output/pareto/$(Int(max_cable_length))_meter_cable/opt_history_files/snopt_summary.out",
+    "Print file" => "output/pareto/$(Int(max_cable_length))_meter_cable/opt_history_files/snopt_print.out"
 )
 
 
