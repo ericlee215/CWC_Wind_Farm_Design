@@ -175,7 +175,7 @@ cable_length_wrapper(x) = cable_length_wrapper(x, params)
 turbine_exclusion_wrapper(x) = turbine_exclusion_wrapper(x, params)
 
 # set up WEC (wake expansion coefficient) optimization
-wec_values = [3.0] #[3.0, 2.6, 2.2, 1.8, 1.4, 1.0]
+wec_values = [3.0, 2.6, 2.2, 1.8, 1.4, 1.0]
 # wec_values = Float64[]
 # for wec_value_ref = wec_values_ref
 #     append!(wec_values, ones(n_wec_repeats)*wec_value_ref)
@@ -193,15 +193,15 @@ info[1] = "Initial layout"
 
 # set optimizer options
 snopt_opt_short = Dict(
-    "Major iterations limit" => 2,
-    "Major optimality tolerance" => 1e-5,
+    "Major iterations limit" => 10,
+    "Major optimality tolerance" => 1e-4,
     "Minor feasibility tolerance" => 1e-6,
     "Summary file" => "output/pareto/winner_colome/$(Int(max_cable_length))_meter_cable/opt_history_files/sum.out",
     "Print file" => "output/pareto/winner_colome/$(Int(max_cable_length))_meter_cable/opt_history_files/pri.out"
 )
 
 snopt_opt_full = Dict(
-    "Major iterations limit" => 2,
+    "Major iterations limit" => 150,
     "Major optimality tolerance" => 1e-5,
     "Minor feasibility tolerance" => 1e-6,
     "Summary file" => "output/pareto/winner_colome/$(Int(max_cable_length))_meter_cable/opt_history_files/sum.out",
