@@ -1,8 +1,9 @@
 import FLOWFarm; const ff = FLOWFarm
 using DelimitedFiles 
+import YAML
 
 # get initial turbine x and y locations
-turbine_coordinates = readdlm(initial_layout_file, skipstart=1) .* 1609.0   # convert miles to meters
+turbine_coordinates = readdlm(initial_layout_file, skipstart=1)   # convert miles to meters
 turbine_x = turbine_coordinates[:,1]
 turbine_y = turbine_coordinates[:,2]
 
@@ -31,7 +32,7 @@ ambient_ti = wind_data["turbulence_intensity"]["default"]
 nstates = length(winddirections)
 winddirections *= pi/180.0
 air_density = 1.1716  # kg/m^3
-shearexponent = 0.15
+shearexponent = 0.31
 ambient_tis = zeros(nstates) .+ ambient_ti
 measurementheight = zeros(nstates) .+ hub_height[1]
 
@@ -73,10 +74,10 @@ sorted_turbine_index = sortperm(turbine_x)
 windresource = ff.DiscretizedWindResource(winddirections, windspeeds, windprobabilities, measurementheight, air_density, ambient_tis, wind_shear_model)
 
 # set up wake and related models
-wakedeficitmodel = ff.GaussYaw()
-wakedeflectionmodel = ff.GaussYawDeflection()
+wakedeficitmodel = ff.GaussYawVariableSpread() # ff.GaussYaw()
+wakedeflectionmodel = ff.GaussYawVariableSpreadDeflection()
 wakecombinationmodel = ff.LinearLocalVelocitySuperposition()
-localtimodel = ff.LocalTIModelNoLocalTI()
+localtimodel = ff.LocalTIModelNoLocalTI() # ff.LocalTIModelNoLocalTI() LocalTIModelMaxTI
 
 # initialize model set
 model_set = ff.WindFarmModelSet(wakedeficitmodel, wakedeflectionmodel, wakecombinationmodel, localtimodel)

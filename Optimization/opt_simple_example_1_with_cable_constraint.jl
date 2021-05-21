@@ -8,7 +8,7 @@ include("optimization_functions.jl")
 farm_problem, flow_models, farm_constraints = problem_setup_simple_example_1(generate_random_layout=true)
 
 # set optimizer parameters
-optimizer_param = NLoptAlgorithmParam(:GN_ISRES, 1e-5, 1e-6, 1000)
+optimizer_param = NLoptAlgorithmParam(:GN_ISRES, 1e-5, 1e-6, 100)
 
 # set up optimization problem
 opt, obj!, con!, obj_unscaled! = set_optimization_problem(optimizer_param, farm_problem, flow_models, farm_constraints, return_unscaled_obj=true)
