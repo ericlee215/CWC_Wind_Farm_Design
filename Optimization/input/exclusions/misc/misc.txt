@@ -1,0 +1,2 @@
+latitude	longitude	radius
+43.217045	-100.00193	550
