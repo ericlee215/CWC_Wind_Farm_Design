@@ -201,7 +201,7 @@ snopt_opt_short = Dict(
 )
 
 snopt_opt_full = Dict(
-    "Major iterations limit" => 150,
+    "Major iterations limit" => 120,
     "Major optimality tolerance" => 1e-5,
     "Minor feasibility tolerance" => 1e-6,
     "Summary file" => "output/pareto/winner_colome/$(Int(max_cable_length))_meter_cable/opt_history_files/sum.out",
