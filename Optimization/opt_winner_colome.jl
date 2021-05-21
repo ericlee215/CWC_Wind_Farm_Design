@@ -2,28 +2,37 @@
 This script uses Ipopt (nonlinear solver) to optimize the turbine locations in a polygon-boundary wind farm.
 =#
 
+# cd("Optimization")
+
 using Ipopt
 using DelimitedFiles 
 using PyPlot
 import ForwardDiff
+include("../cableCost/cbl_analysis2.jl")
 
-layout_number = lpad(ARGS[1],3,"0")
+# layout_number = lpad(ARGS[1],3,"0")
+layout_number = "000"
+max_cable_length = 5000.0
 
 # ==================================================================================
 # ============================= USER INPUTS IN THIS BLOCK ==========================
 # ==================================================================================
 
 # SET THE BOUNDARY FILE:
-boundary_file = "input/boundary_files/boundary_winner_colome.txt"
+# boundary_file = "input/boundary_files/boundary_winner_colome_2.txt"
+boundary_file = "input/boundary_files/boundary_winner_colome_3_utm.txt"
+
 
 # INITIAL LAYOUT FILE PATH:
-initial_layout_file = "input/initial_layouts/initial-layout-001.txt"
+# initial_layout_file = "input/initial_layouts/initial-layout-$layout_number.txt"
+initial_layout_file = "input/initial_layouts/initial-layout-302-16turb.txt"
+
 
 # TURBINE PARAMETERS FILE PATH:
 turbine_params_file = "input/turbine_files/Vestas_V110_2MW/Vestas_V110_2MW_param.jl"
 
 # WIND ROSE FILE PATH:
-windrose_file = "input/wind_resource/wind_resource_winner_colome_24dirs_avgspeeds.yaml"
+windrose_file = "input/wind_resource/winner_colome_windrose_24dirs_avg_speed.yaml"
 
 # MODEL SET FILE PATH:
 model_set_file = "input/model_sets/model_set_winner_colome_avg_speed.jl"
@@ -71,8 +80,32 @@ function spacing_wrapper(x, params)
     turbine_y = x[nturbines+1:end]
 
     # get and return spacing distances
-    return 2.5*rotor_diameter[1] .- ff.turbine_spacing(turbine_x,turbine_y)
+    return 4.0*rotor_diameter[1] .- ff.turbine_spacing(turbine_x,turbine_y)
 end
+
+
+function cable_length_wrapper(x, params)
+
+    # include relevant globals
+    max_cable_length = params.max_cable_length
+    cable_nodes = params.cable_nodes
+
+    # get number of turbines
+    nturbines = Int(length(x)/2)
+
+    # extract x and y locations of turbines from design variables vector
+    turbine_x = x[1:nturbines]
+    turbine_y = x[nturbines+1:end]
+
+    cable_length = zeros(typeof(turbine_x[1]), 1)
+
+    for i = 1:length(cable_nodes)
+        cable_length[1] += sqrt((turbine_x[cable_nodes[i][1]] - turbine_x[cable_nodes[i][2]])^2 + (turbine_y[cable_nodes[i][1]] - turbine_y[cable_nodes[i][2]])^2)
+    end
+
+    return [cable_length[1] - max_cable_length]
+end
+
 
 # set up objective wrapper function
 function aep_wrapper(x, params)
@@ -129,8 +162,10 @@ function con(x, g)
     # calculate boundary constraint
     boundary_con = boundary_wrapper(x)
 
+    cable_length_con = cable_length_wrapper(x)
+
     # combine constaint values and jacobians into overall constaint value and jacobian arrays
-    g[:] = [spacing_con; boundary_con]
+    g[:] = [spacing_con; boundary_con; cable_length_con]
 end
 
 # objective gradient function
@@ -153,10 +188,13 @@ function con_grad(x, mode, rows, cols, values)
         # calculate boundary constraint jacobian
         db_dx = ForwardDiff.jacobian(boundary_wrapper, x)
 
+        # calculate cable length sonctraint jacobian
+        dcl_dx = ForwardDiff.jacobian(cable_length_wrapper, x)
+
         # combine constaint jacobians into overall constaint jacobian arrays
         for i = 1:prob.m
             for j = 1:prob.n
-                values[(i-1)*prob.n+j] = [ds_dx; db_dx][i, j]
+                values[(i-1)*prob.n+j] = [ds_dx; db_dx; dcl_dx][i, j]
             end
         end
     end
@@ -174,7 +212,7 @@ include(model_set_file)
 obj_scale = 1E-11
 
 # set wind farm boundary parameters
-boundary_vertices = readdlm(boundary_file, skipstart=1) .* 1609.0   # convert from miles to meters
+boundary_vertices = readdlm(boundary_file, skipstart=1) 
 include("input/boundary_files/boundary_normals_calculator.jl")
 boundary_normals = boundary_normals_calculator(boundary_vertices)
 
@@ -199,21 +237,21 @@ struct params_struct2{}
     rated_power
     windresource
     power_models
+    max_cable_length
+    cable_nodes
 end
 
 params = params_struct2(model_set, rotor_points_y, rotor_points_z, turbine_z, ambient_ti, 
     rotor_diameter, boundary_vertices, boundary_normals, obj_scale, hub_height, turbine_yaw, 
     ct_models, generator_efficiency, cut_in_speed, cut_out_speed, rated_speed, rated_power, 
-    windresource, power_models)
+    windresource, power_models, max_cable_length, [[1,1] for i=1:nturbines-1])
 
 
 # ==================================================================================
 # ============================= SET UP OPTIMIZATION ================================
 # ==================================================================================
 
-# initialize design variable array
-x = [copy(turbine_x);copy(turbine_y)]
-global x
+x = [deepcopy(turbine_x);deepcopy(turbine_y)]
 
 # report initial objective value
 println("Starting AEP: ", aep_wrapper(x, params)[1]*1e-6/obj_scale, " MWh")
@@ -236,7 +274,7 @@ function numberofspacingconstraints(nturb)
 end
 n_spacingconstraints = numberofspacingconstraints(nturbines)
 n_boundaryconstraints = length(boundary_wrapper(x, params))
-n_constraints = n_spacingconstraints + n_boundaryconstraints
+n_constraints = n_spacingconstraints + n_boundaryconstraints + 1
 
 # set general lower and upper bounds for design variables
 lb = ones(n_designvariables) * -Inf
@@ -250,6 +288,7 @@ ub_g = zeros(n_constraints)
 spacing_wrapper(x) = spacing_wrapper(x, params)
 aep_wrapper(x) = aep_wrapper(x, params)
 boundary_wrapper(x) = boundary_wrapper(x, params)
+cable_length_wrapper(x) = cable_length_wrapper(x, params)
 
 # create the optimization problem
 prob = createProblem(n_designvariables, lb, ub, n_constraints, lb_g, ub_g, n_designvariables*n_constraints, 0,
@@ -260,12 +299,13 @@ addOption(prob, "hessian_approximation", "limited-memory")
 wec_steps = 6
 wec_max = 3.0
 wec_end = 1.0
-wec_values = collect(LinRange(wec_max, wec_end, wec_steps))
+wec_values = [collect(LinRange(wec_max, wec_end, wec_steps)); 1.0; 1.0]
+n_wec = length(wec_values)
 
 # intialize 
-xopt = fill(zeros(1), wec_steps)
-fopt = fill(0.0, wec_steps)
-info = fill("", wec_steps)
+xopt = fill(zeros(1), n_wec)
+fopt = fill(0.0, n_wec)
+info = fill("", n_wec)
 
 
 # ==================================================================================
@@ -276,6 +316,11 @@ t1t = time()    # start optimization timer
 
 # perform an optimization for each decreasing WEC value
 for i = 1:length(wec_values)
+
+    # get the cable network
+    cost, _, cable_nodes = Cable_Analysis.cbl_analysis(x[1:nturbines], x[nturbines+1:end], 1.0, return_network=true)
+    params.cable_nodes[:] = cable_nodes
+    println("\n\nCable length = ", cost)
 
     # set the WEC value in FlowFarm
     println("Running with WEC = ", wec_values[i])
@@ -298,7 +343,7 @@ for i = 1:length(wec_values)
     info[i] = String(Ipopt.ApplicationReturnStatus[status])    # optimization info
 
     # print optimization results
-    println("Finished in : ", clk, " (s)")
+    println("\n\nFinished in : ", clk, " (s)")
     println("Info: ", info)
     println("End objective value: ", -fopt[i])
 

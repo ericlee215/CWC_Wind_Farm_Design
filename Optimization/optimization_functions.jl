@@ -92,7 +92,7 @@ function set_optimization_problem(optimizer_param::NLoptAlgorithmParam, farm_pro
         c[:] = [boundary_con; spacing_con; cable_length_con]
     end
 
-    function boundary_wrapper(turbine_x, turbine_y, boundary::ff.FreeFormBoundary)
+    function boundary_wrapper(turbine_x, turbine_y, boundary::ff.PolygonBoundary)
         # if boundary.isconvex == true
         #     return convex_boundary(boundary.vertices, boundary.normals, turbine_x, turbine_y)
         # else
