@@ -23,7 +23,7 @@ module Cable_Analysis
     # this function will preform prim's algorithm
     # on the graph and will return the set of edges E
     # that make up the minimum spanning tree
-    function primAnalysis(network; plot_tree=false)
+    function primAnalysis(network; return_network=false, plot_tree=false)
 
         # make the cost vector
         cost = []
@@ -86,33 +86,51 @@ module Cable_Analysis
                 end
 
             end
+            
+        end
 
-            #plot the tree
+        #plot the tree
 
-            if plot_tree
+        if plot_tree
 
-                for i in network
+            for i in network
 
-                    PyPlot.plot(i.loc[1],i.loc[2],"ro")
-
-                end
-
-                #link each node on the plotted tree
-                for i in 2:length(prev)
-                    
-                    x = [network[i].loc[1], network[prev[i]].loc[1]]
-                    y = [network[i].loc[2], network[prev[i]].loc[2]]
-                    
-                    PyPlot.plot(x,y,"b-")
-
-                end
-
-
-                PyPlot.show()
+                PyPlot.plot(i.loc[1],i.loc[2],"ro")
 
             end
 
-            
+            #link each node on the plotted tree
+            for i in 2:length(prev)
+                
+                x = [network[i].loc[1], network[prev[i]].loc[1]]
+                y = [network[i].loc[2], network[prev[i]].loc[2]]
+                
+                PyPlot.plot(x,y,"b-")
+
+            end
+
+            PyPlot.show()
+
+        end
+
+
+        if return_network
+
+            # get cable layout
+            n_cables= length(network) - 1
+            cables = [[zeros(2),zeros(2)] for i=1:n_cables]
+            nodes = [zeros(Int, 2) for i=1:n_cables]
+
+            for i in 2:length(prev)
+
+                cables[i-1][1][:] = network[i].loc
+                cables[i-1][2][:] = network[prev[i]].loc
+
+                nodes[i-1][1] = network[i].node_id
+                nodes[i-1][2] = network[prev[i]].node_id
+                
+            end
+
         end
 
 
@@ -125,7 +143,15 @@ module Cable_Analysis
 
         end
 
-        return total_cost
+        if return_network
+
+            return total_cost, cables, nodes
+
+        else
+
+            return total_cost
+
+        end
 
     end
 
@@ -134,7 +160,7 @@ module Cable_Analysis
     # function will turn the sets in to a graph and 
     # return the cost of the minimum spanning tree multiplied
     # by a constant cost variable
-    function cbl_analysis(x_coordinates, y_coordinates, linear_cost; plot_tree=false)
+    function cbl_analysis(x_coordinates, y_coordinates, linear_cost; return_network=false, plot_tree=false)
 
         cost = 0
 
@@ -170,9 +196,49 @@ module Cable_Analysis
 
         # find the distance cost through prim's algorithm and then
         # multiply it by the linear cost    
-        cost = primAnalysis(windFarm, plot_tree=plot_tree)
+        if return_network
+            cost, cables, nodes = primAnalysis(windFarm, return_network=true, plot_tree=plot_tree)
+        else
+            cost = primAnalysis(windFarm, plot_tree=plot_tree)
+        end
 
-        return cost * linear_cost
+
+        # #############################
+        # #plot the tree
+
+        # if plot_tree
+
+        #     for i in windFarm
+
+        #         PyPlot.plot(i.loc[1],i.loc[2],"ro")
+
+        #     end
+
+        #     #link each node on the plotted tree
+        #     for i in 2:length(prev)
+                
+        #         x = [network[i].loc[1], network[prev[i]].loc[1]]
+        #         y = [network[i].loc[2], network[prev[i]].loc[2]]
+                
+        #         PyPlot.plot(x,y,"b-")
+
+        #     end
+
+
+        #     PyPlot.show()
+
+        # end
+        # ###############################
+
+        if return_network
+
+            return cost * linear_cost, cables, nodes
+
+        else
+
+            return cost * linear_cost
+
+        end
 
     end
 
