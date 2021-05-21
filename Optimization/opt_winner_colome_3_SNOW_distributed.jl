@@ -15,7 +15,7 @@ using ClusterManagers
 include("../cableCost/cbl_analysis2.jl")
 include("plot_farm_winner_colome.jl")
 include("exclusions_winner_colome.jl")
-@everywhere include("opt_functions_winner_colome.jl")
+include("opt_functions_winner_colome.jl")
 addprocs(SlurmManager(parse(Int, ENV["SLURM_NTASKS"])-1))
 
 
@@ -33,16 +33,15 @@ boundary_file = "input/boundary_files/boundary_winner_colome_3_utm.txt"
 
 # INITIAL LAYOUT FILE PATH:
 initial_layout_file = "input/initial_layouts/initial-layout-$layout_number.txt"
-@everywhere initial_layout_file = $initial_layout_file
-# initial_layout_file = "input/initial_layouts/initial-layout-301.txt"
+# @everywhere initial_layout_file = $initial_layout_file
 
 # TURBINE PARAMETERS FILE PATH:
 turbine_params_file = "input/turbine_files/Vestas_V110_2MW/Vestas_V110_2MW_param.jl"
-@everywhere turbine_params_file = $turbine_params_file
+# @everywhere turbine_params_file = $turbine_params_file
 
 # WIND ROSE FILE PATH:
 windrose_file = "input/wind_resource/winner_colome_windrose_24dirs_avg_speed.yaml"
-@everywhere windrose_file = $windrose_file
+# @everywhere windrose_file = $windrose_file
 
 # MODEL SET FILE PATH:
 model_set_file = "input/model_sets/model_set_winner_colome_avg_speed.jl"
