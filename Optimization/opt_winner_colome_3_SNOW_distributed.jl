@@ -169,7 +169,7 @@ ub_g_with_exclusions = zeros(n_constraints_with_exclusions)
 
 # generate wrapper function surrogates
 spacing_wrapper(x) = spacing_wrapper(x, params)
-aep_wrapper(x) = aep_wrapper(x, params)
+@everywhere aep_wrapper(x) = aep_wrapper(x, params)
 boundary_wrapper(x) = boundary_wrapper(x, params)
 cable_length_wrapper(x) = cable_length_wrapper(x, params)
 turbine_exclusion_wrapper(x) = turbine_exclusion_wrapper(x, params)
