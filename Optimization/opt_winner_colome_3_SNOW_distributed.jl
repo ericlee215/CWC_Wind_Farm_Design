@@ -48,17 +48,17 @@ model_set_file = "input/model_sets/model_set_winner_colome_avg_speed.jl"
 @everywhere model_set_file = $model_set_file
 
 # INTERMEDIATE LAYOUT FILE PATH:
-intermediate_layout_file = "output/pareto/$(Int(max_cable_length))_meter_cable/intermediate_layouts/winner_colome_$(layout_number)_intermediate.txt"
+intermediate_layout_file = "output/pareto/winner_colome/$(Int(max_cable_length))_meter_cable/intermediate_layouts/winner_colome_$(layout_number)_intermediate.txt"
 
 # INTERMEDIATE LAYOUT FIGURE FILE PATH:
-intermediate_layout_figure_file = "output/pareto/$(Int(max_cable_length))_meter_cable/intermediate_layout_figures/winner_colome_$(layout_number)_intermediate"
+intermediate_layout_figure_file = "output/pareto/winner_colome/$(Int(max_cable_length))_meter_cable/intermediate_layout_figures/winner_colome_$(layout_number)_intermediate"
 
 # FINAL LAYOUT FILE PATH:
-final_layout_file = "output/pareto/$(Int(max_cable_length))_meter_cable/final_layouts/winner_colome_$layout_number.txt"
+final_layout_file = "output/pareto/winner_colome/$(Int(max_cable_length))_meter_cable/final_layouts/winner_colome_$layout_number.txt"
 
 # FINAL LAYOUT FIGURE FILE PATH:
-final_layout_figure_file = "output/pareto/$(Int(max_cable_length))_meter_cable/final_layout_figures/winner_colome_$layout_number"
-final_layout_figure_file_color = "output/pareto/$(Int(max_cable_length))_meter_cable/final_layout_figures/winner_colome_$(layout_number)_color"
+final_layout_figure_file = "output/pareto/winner_colome/$(Int(max_cable_length))_meter_cable/final_layout_figures/winner_colome_$layout_number"
+final_layout_figure_file_color = "output/pareto/winner_colome/$(Int(max_cable_length))_meter_cable/final_layout_figures/winner_colome_$(layout_number)_color"
 
 # ==================================================================================
 
@@ -196,16 +196,16 @@ snopt_opt_short = Dict(
     "Major iterations limit" => 2,
     "Major optimality tolerance" => 1e-5,
     "Minor feasibility tolerance" => 1e-6,
-    "Summary file" => "output/pareto/$(Int(max_cable_length))_meter_cable/opt_history_files/snopt_summary.out",
-    "Print file" => "output/pareto/$(Int(max_cable_length))_meter_cable/opt_history_files/snopt_print.out"
+    "Summary file" => "output/pareto/winner_colome/$(Int(max_cable_length))_meter_cable/opt_history_files/snopt_summary.out",
+    "Print file" => "output/pareto/winner_colome/$(Int(max_cable_length))_meter_cable/opt_history_files/snopt_print.out"
 )
 
 snopt_opt_full = Dict(
     "Major iterations limit" => 2,
     "Major optimality tolerance" => 1e-5,
     "Minor feasibility tolerance" => 1e-6,
-    "Summary file" => "output/pareto/$(Int(max_cable_length))_meter_cable/opt_history_files/snopt_summary.out",
-    "Print file" => "output/pareto/$(Int(max_cable_length))_meter_cable/opt_history_files/snopt_print.out"
+    "Summary file" => "output/pareto/winner_colome/$(Int(max_cable_length))_meter_cable/opt_history_files/snopt_summary.out",
+    "Print file" => "output/pareto/winner_colome/$(Int(max_cable_length))_meter_cable/opt_history_files/snopt_print.out"
 )
 
 
